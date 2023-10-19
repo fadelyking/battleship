@@ -1,6 +1,20 @@
 export { ship };
 
 function ship(length) {
+	let name;
+
+	if (length === 5) {
+		name = "Carrier";
+	} else if (length === 4) {
+		name = "Battleship";
+	} else if (length === 3) {
+		name = "Cruiser";
+	} else if (length === 2) {
+		name = "Submarine";
+	} else {
+		name = "Destroyer";
+	}
+
 	let hits = 0;
 	const numberOfHits = () => hits;
 	const gotHit = () => hits++;
@@ -15,7 +29,7 @@ function ship(length) {
 			return true;
 		}
 	};
-	return { numberOfHits, gotHit, isSunk, hits };
+	return { numberOfHits, gotHit, isSunk, hits, name };
 }
 
 const newShip = ship(4);
