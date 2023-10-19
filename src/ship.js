@@ -5,11 +5,13 @@ function ship(length) {
 	const numberOfHits = () => hits;
 	const gotHit = () => hits++;
 	const isSunk = () => {
-		if (length === 4 && hits === 4) {
-			return true;
-		} else if (length === 3 && hits === 3) {
-			return true;
-		} else if (length === 2 && hits === 2) {
+		if (
+			(length === 5 && hits === 5) ||
+			(length === 4 && hits === 4) ||
+			(length === 3 && hits === 3) ||
+			(length === 2 && hits === 2) ||
+			(length === 1 && hits === 1)
+		) {
 			return true;
 		}
 	};
