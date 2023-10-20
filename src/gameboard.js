@@ -33,6 +33,8 @@ function gameBoard(ship, value, location) {
 			return arrays[arrayLetter].splice(arrayIndex, 1, "Miss");
 		} else if (attackShip[arrayIndex] !== "" && attackShip[arrayIndex] !== "Miss") {
 			return attackShip[arrayIndex].gotHit();
+		} else if (attackShip[arrayIndex] !== "" && attackShip[arrayIndex] === "Miss") {
+			return "Already missed here";
 		}
 	};
 
@@ -43,7 +45,6 @@ function gameBoard(ship, value, location) {
 	sunkShips = () => sunkenShips;
 	reportStatus = () => {
 		if (ship.isSunk() === true) {
-			console.log("sunk");
 			return sunkenShips++;
 		} else {
 			return false;
@@ -54,19 +55,21 @@ function gameBoard(ship, value, location) {
 }
 
 // Create a submarine
-const newShip = ship(2);
+const submarine = ship(2);
+const destroyer = ship(1);
 // Create a new gameBoard
-const newGame = gameBoard(newShip, "A", 1);
+const playerGameBoard = gameBoard(submarine, "A", 1);
+const computerGameBoard = gameBoard(destroyer, "B", 2);
 // Check if the ship exists on the array
-newGame.checkForShip("A", 1);
+playerGameBoard.checkForShip("A", 1);
 
 // Attack the ship
-newGame.receiveAttack("A", 1);
-newGame.receiveAttack("A", 1);
-
+/* playerGameBoard.receiveAttack("A", 1);
+playerGameBoard.receiveAttack("A", 1);
+ */
 // Determine whether the ship sunk or not. Increment sunkenShips if true.
-newGame.reportStatus();
+playerGameBoard.reportStatus();
 
 // Store the number of sunkenShips
-newGame.sunkShips();
-export { gameBoard };
+playerGameBoard.sunkShips();
+export { gameBoard, playerGameBoard, computerGameBoard };
