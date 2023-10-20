@@ -1,6 +1,8 @@
 import { ship } from "./ship";
 
 function gameBoard(ship, value, location) {
+	let sunkenShips = 0;
+
 	// Arrays to store the ships in
 	const arrays = {
 		A: ["", "", "", "", "", "", "", "", "", ""],
@@ -32,15 +34,30 @@ function gameBoard(ship, value, location) {
 		if (attackShip[arrayIndex] === "") {
 			return arrays[arrayLetter].splice(arrayIndex, 1, "Miss");
 		} else if (attackShip[arrayIndex] !== "" && attackShip[arrayIndex] !== "Miss") {
-			return attackShip[arrayIndex].name;
+			return attackShip[arrayIndex].gotHit();
 		}
 	};
 
-	return { arrays, checkForShip, receiveAttack };
+	// When a ship sinks increase the number of Sunken Ships
+	reportStatus = () => {
+		if (ship.isSunk() === true) {
+			return sunkenShips + 1;
+		} else {
+			return false;
+		}
+	};
+
+	return { sunkenShips, arrays, checkForShip, receiveAttack, reportStatus };
 }
 
 const newShip = ship(4);
+
 const newGame = gameBoard(newShip, "A", 1);
 newGame.checkForShip("A", 1);
 newGame.receiveAttack("A", 1);
+newGame.receiveAttack("A", 1);
+newGame.receiveAttack("A", 1);
+newGame.receiveAttack("A", 1);
+
+console.log(newGame.reportStatus());
 export { gameBoard };
