@@ -1,8 +1,6 @@
 import { ship } from "./ship";
 
 function gameBoard(ship, value, location) {
-	let sunkenShips = 0;
-
 	// Arrays to store the ships in
 	const arrays = {
 		A: ["", "", "", "", "", "", "", "", "", ""],
@@ -38,26 +36,37 @@ function gameBoard(ship, value, location) {
 		}
 	};
 
-	// When a ship sinks increase the number of Sunken Ships
+	// When a ship sinks increase the number of Sunken Ships through reportStatus
+	// sunkShips stores that variable
+	// reportStatus -> sunkShips -> sunkenShips
+	let sunkenShips = 0;
+	sunkShips = () => sunkenShips;
 	reportStatus = () => {
 		if (ship.isSunk() === true) {
-			return sunkenShips + 1;
+			console.log("sunk");
+			return sunkenShips++;
 		} else {
 			return false;
 		}
 	};
 
-	return { sunkenShips, arrays, checkForShip, receiveAttack, reportStatus };
+	return { sunkShips, checkForShip, receiveAttack, reportStatus };
 }
 
-const newShip = ship(4);
-
+// Create a submarine
+const newShip = ship(2);
+// Create a new gameBoard
 const newGame = gameBoard(newShip, "A", 1);
+// Check if the ship exists on the array
 newGame.checkForShip("A", 1);
-newGame.receiveAttack("A", 1);
-newGame.receiveAttack("A", 1);
+
+// Attack the ship
 newGame.receiveAttack("A", 1);
 newGame.receiveAttack("A", 1);
 
-console.log(newGame.reportStatus());
+// Determine whether the ship sunk or not. Increment sunkenShips if true.
+newGame.reportStatus();
+
+// Store the number of sunkenShips
+newGame.sunkShips();
 export { gameBoard };
