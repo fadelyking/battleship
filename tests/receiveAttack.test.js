@@ -12,7 +12,7 @@ test("Shot missed", () => {
 test("Shot landed", () => {
 	const newShip = ship(4);
 	const newGame = gameBoard(newShip, "A", 1);
-	newGame.checkForShip("A", 2);
-	newGame.receiveAttack("A", 2);
-	expect(newGame.receiveAttack("A", 1)).toBe("Battleship");
+	newGame.checkForShip("A", 1);
+	newGame.receiveAttack("A", 1);
+	expect(newGame.receiveAttack("A", 1)).toBe(1);
 });
