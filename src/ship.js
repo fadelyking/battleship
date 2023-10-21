@@ -1,9 +1,18 @@
 export { ship };
 
-function ship(length) {
-	let name;
+function ship(length, direction) {
+	let shipLength = length;
+
+	const shipDirection = () => {
+		if (direction === 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	};
 
 	// Assign name based on length
+	let name;
 	if (length === 5) {
 		name = "Carrier";
 	} else if (length === 4) {
@@ -33,11 +42,12 @@ function ship(length) {
 			return true;
 		}
 	};
-	return { numberOfHits, gotHit, isSunk, hits, name };
+	return { numberOfHits, gotHit, isSunk, shipDirection, hits, name, shipLength };
 }
 
-const newShip = ship(4);
+const newShip = ship(4, 1);
 newShip.gotHit();
 newShip.gotHit();
 newShip.gotHit();
 newShip.isSunk();
+console.log(newShip.shipDirection());
