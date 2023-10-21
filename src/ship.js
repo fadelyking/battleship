@@ -50,4 +50,3 @@ newShip.gotHit();
 newShip.gotHit();
 newShip.gotHit();
 newShip.isSunk();
-console.log(newShip.shipDirection());

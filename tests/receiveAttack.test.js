@@ -2,17 +2,18 @@ import { ship } from "../src/ship";
 import { gameBoard } from "../src/gameboard";
 
 test("Shot missed", () => {
-	const newShip = ship(4);
-	const newGame = gameBoard(newShip, "A", 1);
-	newGame.checkForShip("A", 1);
-	newGame.receiveAttack("A", 3);
-	expect(newGame.checkForShip("A", 3)).toBe("Miss");
+	const newShip = ship(4, 2);
+	const newGame = gameBoard(newShip);
+	newGame.checkForShip(1, 1);
+	newGame.receiveAttack(1, 3);
+	expect(newGame.checkForShip(1, 3)).toBe("Miss");
 });
 
 test("Shot landed", () => {
-	const newShip = ship(4);
-	const newGame = gameBoard(newShip, "A", 1);
-	newGame.checkForShip("A", 1);
-	newGame.receiveAttack("A", 1);
-	expect(newGame.receiveAttack("A", 1)).toBe(1);
+	const newShip = ship(4, 0);
+	const newGame = gameBoard(newShip);
+	newGame.placeShip(0, 1, newShip);
+	newGame.checkForShip(1, 1);
+	newGame.receiveAttack(0, 1);
+	expect(newGame.receiveAttack(0, 1)).toBe(1);
 });
