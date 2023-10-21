@@ -44,12 +44,12 @@ function gameBoard(ship) {
 		const attackShip = shipBoard[row][column];
 		if (attackShip === "") {
 			return shipBoard[row].splice(column, 1, "Miss");
-		} else if (attackShip !== "" && attackShip !== "Miss") {
+		} else if (attackShip !== "" && attackShip !== "Miss" && attackShip !== "Hit") {
 			shipBoard[row].splice(column, 1, "Hit");
 			return ship.gotHit();
-		} else if (attackShip !== "" && attackShip === "Miss") {
+		} else if (attackShip !== "" && attackShip !== "Hit" && attackShip === "Miss") {
 			return "Already missed here";
-		} else if (attackShip !== "" && attackShip !== "Miss" && attackShip === "Hit") {
+		} else if (attackShip === "Hit") {
 			return "Already hit here";
 		}
 	};
@@ -83,10 +83,10 @@ playerGameBoard.placeShip(0, 0, battleShip);
 
 // Check if the ship exists on the array
 playerGameBoard.checkForShip(0, 0);
-// Attack the ship
-playerGameBoard.receiveAttack(1, 1);
-playerGameBoard.receiveAttack(1, 1);
 
+// Attack the ship
+playerGameBoard.receiveAttack(0, 1);
+playerGameBoard.receiveAttack(0, 1);
 // Determine whether the ship sunk or not. Increment sunkenShips if true.
 playerGameBoard.reportStatus();
 
