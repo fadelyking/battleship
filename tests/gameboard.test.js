@@ -19,15 +19,15 @@ test("Shot landed", () => {
 	newGame.placeShip(0, 1, newShip);
 	newGame.checkForShip(1, 1);
 	newGame.receiveAttack(0, 1);
-	expect(newGame.receiveAttack(0, 1)).toBe(1);
+	expect(newGame.receiveAttack(0, 2)).toBe(1);
 });
 
-test("Check if the ship sunk or not", () => {
+test("Attack and sink a ship", () => {
 	newGame.placeShip(0, 0, newShip);
+	newGame.receiveAttack(0, 0);
 	newGame.receiveAttack(0, 1);
-	newGame.receiveAttack(0, 1);
-	newGame.receiveAttack(0, 1);
-	newGame.receiveAttack(0, 1);
+	newGame.receiveAttack(0, 2);
+	newGame.receiveAttack(0, 3);
 	newGame.reportStatus();
 	expect(newGame.reportStatus()).toBe(1);
 });
