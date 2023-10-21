@@ -45,9 +45,12 @@ function gameBoard(ship) {
 		if (attackShip === "") {
 			return shipBoard[row].splice(column, 1, "Miss");
 		} else if (attackShip !== "" && attackShip !== "Miss") {
+			shipBoard[row].splice(column, 1, "Hit");
 			return ship.gotHit();
 		} else if (attackShip !== "" && attackShip === "Miss") {
 			return "Already missed here";
+		} else if (attackShip !== "" && attackShip !== "Miss" && attackShip === "Hit") {
+			return "Already hit here";
 		}
 	};
 
