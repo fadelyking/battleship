@@ -67,7 +67,9 @@ function gameBoard() {
 		}
 	};
 
-	return { sunkShips, checkForShip, receiveAttack, reportStatus, placeShip };
+	const shipArray = () => shipBoard;
+
+	return { sunkShips, checkForShip, receiveAttack, reportStatus, placeShip, shipArray };
 }
 
 // Create a submarine
