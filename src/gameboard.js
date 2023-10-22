@@ -15,8 +15,9 @@ function gameBoard() {
 
 	// Place ships in 2D array
 	const placeShip = (rows, column, ship) => {
+		console.log(" I was Called");
 		if (ship.shipDirection() === 1) {
-			for (let i = 0; i < ship.shipLength + 1; i++) {
+			for (let i = 0; i < ship.shipLength; i++) {
 				shipBoard[rows - i].splice(column, 1, ship);
 			}
 		} else {
@@ -68,6 +69,7 @@ function gameBoard() {
 	};
 
 	const shipArray = () => shipBoard;
+	console.log(shipBoard);
 
 	return { sunkShips, checkForShip, receiveAttack, reportStatus, placeShip, shipArray };
 }
@@ -75,4 +77,6 @@ function gameBoard() {
 const playerGameBoard = gameBoard();
 const computerGameBoard = gameBoard();
 
+let newShip = ship(4, 0);
+playerGameBoard.placeShip(1, 2, newShip);
 export { gameBoard, playerGameBoard, computerGameBoard };

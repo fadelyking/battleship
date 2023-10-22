@@ -21,7 +21,7 @@ function ship(length, direction) {
 		name = "Cruiser";
 	} else if (length === 2) {
 		name = "Submarine";
-	} else {
+	} else if (length === 1) {
 		name = "Destroyer";
 	}
 
