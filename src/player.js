@@ -4,12 +4,14 @@ function player(player, playerGameBoard, enemyGameBoard) {
 	}
 
 	const attack = (row, column) => {
+		function aiAttack() {
+			playerGameBoard.receiveAttack(randomNum(10), randomNum(10));
+		}
 		if (player === "Human") {
 			enemyGameBoard.receiveAttack(row, column);
-			playerGameBoard.receiveAttack(randomNum(9), randomNum(9));
+			aiAttack();
 		}
 	};
-
 	return { attack };
 }
 

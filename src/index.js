@@ -26,22 +26,12 @@ function game() {
 	playerGameBoard.placeShip(9, 0, carrier);
 
 	computerGameBoard.placeShip(3, 2, destroyer);
-	computerGameBoard.placeShip(4, 6, submarine);
-	computerGameBoard.placeShip(5, 0, cruiser);
+	computerGameBoard.placeShip(4, 3, submarine);
+	computerGameBoard.placeShip(5, 7, cruiser);
 	computerGameBoard.placeShip(0, 4, battleShip);
-	computerGameBoard.placeShip(9, 0, carrier);
-
-	humanPlayer.attack(1, 3);
-	humanPlayer.attack(1, 2);
-	humanPlayer.attack(1, 7);
-	humanPlayer.attack(4, 3);
-	humanPlayer.attack(2, 4);
-	humanPlayer.attack(1, 1);
-	humanPlayer.attack(5, 7);
+	computerGameBoard.placeShip(8, 5, carrier);
 
 	loadDOM(playerGameBoard, computerGameBoard);
-
-	return {};
 }
 
 const gameLoop = game();
