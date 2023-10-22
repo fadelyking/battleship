@@ -57,16 +57,22 @@ body {
 .center-container {
     display: flex;
     justify-content: space-between;
-    border: 3px solid black;
+
     width: 900px;
     height: 400px;
 }
 
 .board {
     display: grid;
+    gap: 3px;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
-    border: 2px solid red;
+
     width: 400px;
     height: 100;
+}
+
+.board > * {
+    background-color: #83d7ee;
+    border-radius: 4px;
 }
