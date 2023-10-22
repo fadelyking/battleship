@@ -1,6 +1,6 @@
 import { ship } from "./ship";
 
-function gameBoard(ship) {
+function gameBoard() {
 	// Arrays to store the ships in
 	const rows = 10;
 	const columns = 10;
@@ -16,7 +16,7 @@ function gameBoard(ship) {
 	// Place ships in 2D array
 	const placeShip = (rows, column, ship) => {
 		if (ship.shipDirection() === 1) {
-			for (let i = 0; i < ship.shipLength; i++) {
+			for (let i = 0; i < ship.shipLength + 1; i++) {
 				shipBoard[rows - i].splice(column, 1, ship.name);
 			}
 		} else {
@@ -40,7 +40,7 @@ function gameBoard(ship) {
 
 	// Takes a pair of coordinates, determines whether or not the attack hit a ship
 	// If missed, the missed shot is also logged
-	const receiveAttack = (row, column) => {
+	const receiveAttack = (row, column, ship) => {
 		const attackShip = shipBoard[row][column];
 		if (attackShip === "") {
 			return shipBoard[row].splice(column, 1, "Miss");
@@ -59,7 +59,7 @@ function gameBoard(ship) {
 	// reportStatus -> sunkShips -> sunkenShips
 	let sunkenShips = 0;
 	const sunkShips = () => sunkenShips;
-	const reportStatus = () => {
+	const reportStatus = (ship) => {
 		if (ship.isSunk() === true) {
 			return sunkenShips++;
 		} else {
@@ -73,10 +73,11 @@ function gameBoard(ship) {
 // Create a submarine
 const battleShip = ship(4, 0);
 const destroyer = ship(1, 1);
+const carrier = ship(5, 0);
 // Create a new gameBoard
 
-const playerGameBoard = gameBoard(battleShip);
-const computerGameBoard = gameBoard(destroyer);
+const playerGameBoard = gameBoard();
+const computerGameBoard = gameBoard();
 
 // Place the ship
 playerGameBoard.placeShip(0, 0, battleShip);
@@ -85,10 +86,9 @@ playerGameBoard.placeShip(0, 0, battleShip);
 playerGameBoard.checkForShip(0, 0);
 
 // Attack the ship
-playerGameBoard.receiveAttack(0, 1);
-playerGameBoard.receiveAttack(0, 1);
+playerGameBoard.receiveAttack(0, 1, battleShip);
 // Determine whether the ship sunk or not. Increment sunkenShips if true.
-playerGameBoard.reportStatus();
+playerGameBoard.reportStatus(battleShip);
 
 // Store the number of sunkenShips
 playerGameBoard.sunkShips();
