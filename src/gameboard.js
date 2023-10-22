@@ -17,11 +17,11 @@ function gameBoard() {
 	const placeShip = (rows, column, ship) => {
 		if (ship.shipDirection() === 1) {
 			for (let i = 0; i < ship.shipLength + 1; i++) {
-				shipBoard[rows - i].splice(column, 1, ship.name);
+				shipBoard[rows - i].splice(column, 1, ship);
 			}
 		} else {
 			for (let i = 0; i < ship.shipLength; i++) {
-				shipBoard[rows].splice(column + i, 1, ship.name);
+				shipBoard[rows].splice(column + i, 1, ship);
 			}
 		}
 	};
@@ -40,13 +40,13 @@ function gameBoard() {
 
 	// Takes a pair of coordinates, determines whether or not the attack hit a ship
 	// If missed, the missed shot is also logged
-	const receiveAttack = (row, column, ship) => {
+	const receiveAttack = (row, column) => {
 		const attackShip = shipBoard[row][column];
 		if (attackShip === "") {
 			return shipBoard[row].splice(column, 1, "Miss");
 		} else if (attackShip !== "" && attackShip !== "Miss" && attackShip !== "Hit") {
 			shipBoard[row].splice(column, 1, "Hit");
-			return ship.gotHit();
+			return attackShip.gotHit();
 		} else if (attackShip !== "" && attackShip !== "Hit" && attackShip === "Miss") {
 			return "Already missed here";
 		} else if (attackShip === "Hit") {
@@ -72,26 +72,7 @@ function gameBoard() {
 	return { sunkShips, checkForShip, receiveAttack, reportStatus, placeShip, shipArray };
 }
 
-// Create a submarine
-const battleShip = ship(4, 0);
-const destroyer = ship(1, 1);
-const carrier = ship(5, 0);
-// Create a new gameBoard
-
 const playerGameBoard = gameBoard();
 const computerGameBoard = gameBoard();
 
-// Place the ship
-playerGameBoard.placeShip(0, 0, battleShip);
-
-// Check if the ship exists on the array
-playerGameBoard.checkForShip(0, 0);
-
-// Attack the ship
-playerGameBoard.receiveAttack(0, 1, battleShip);
-// Determine whether the ship sunk or not. Increment sunkenShips if true.
-playerGameBoard.reportStatus(battleShip);
-
-// Store the number of sunkenShips
-playerGameBoard.sunkShips();
 export { gameBoard, playerGameBoard, computerGameBoard };

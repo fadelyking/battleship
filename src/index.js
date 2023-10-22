@@ -17,8 +17,7 @@ function game() {
 	const playerGameBoard = gameBoard();
 	const computerGameBoard = gameBoard();
 
-	const humanPlayer = player("Human", playerGameBoard);
-	const computerPlayer = player("Ai", computerGameBoard);
+	const humanPlayer = player("Human", playerGameBoard, computerGameBoard);
 
 	playerGameBoard.placeShip(3, 2, destroyer);
 	playerGameBoard.placeShip(4, 6, submarine);
@@ -31,6 +30,14 @@ function game() {
 	computerGameBoard.placeShip(5, 0, cruiser);
 	computerGameBoard.placeShip(0, 4, battleShip);
 	computerGameBoard.placeShip(9, 0, carrier);
+
+	humanPlayer.attack(1, 3);
+	humanPlayer.attack(1, 2);
+	humanPlayer.attack(1, 7);
+	humanPlayer.attack(4, 3);
+	humanPlayer.attack(2, 4);
+	humanPlayer.attack(1, 1);
+	humanPlayer.attack(5, 7);
 
 	loadDOM(playerGameBoard, computerGameBoard);
 
