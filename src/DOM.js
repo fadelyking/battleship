@@ -17,10 +17,15 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 	optionContainer.classList.toggle("option");
 	const numberGrid = document.createElement("div");
 	numberGrid.classList.toggle("nums");
+	const computerNumberGrid = document.createElement("div");
+	computerNumberGrid.classList.toggle("ai-nums");
 	for (let i = 0; i < 10; i++) {
 		const num = document.createElement("div");
+		const computerNum = document.createElement("div");
 		num.textContent = `${i}`;
+		computerNum.textContent = `${i}`;
 		numberGrid.appendChild(num);
+		computerNumberGrid.appendChild(computerNum);
 	}
 
 	body.appendChild(centerContainer);
@@ -30,6 +35,7 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 	middleContainer.appendChild(sideContainer);
 	middleContainer.appendChild(optionContainer);
 	centerContainer.appendChild(computerContainer);
+	centerContainer.appendChild(computerNumberGrid);
 
 	// Arrays to store the ships in
 	const rows = 10;
@@ -43,7 +49,12 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 				const cell = document.createElement("div");
 				cell.classList.toggle(`cell-${i}${j}`);
 				cell.setAttribute("data", `${playerArray[i][j]}`);
-
+				if (cell.className === `cell-0${j}`) {
+					const humanNums = document.createElement("div");
+					humanNums.classList.add("human-nums");
+					humanNums.textContent = `${j}`;
+					cell.appendChild(humanNums);
+				}
 				if (cell.getAttribute("data") === "[object Object]") {
 					cell.style.backgroundColor = "DarkRed";
 				} else if (cell.getAttribute("data") === "Miss") {
@@ -63,6 +74,14 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 			const cell = document.createElement("div");
 			cell.classList.toggle(`cell-${i}${j}`);
 			cell.setAttribute("data", `${computerArray[i][j]}`);
+			if (cell.className === `cell-0${j}`) {
+				cell.setAttribute("type", "computer");
+				const humanNums = document.createElement("div");
+				humanNums.setAttribute("numtype", "computer-nums");
+				humanNums.textContent = `${9 - j}`;
+				cell.appendChild(humanNums);
+			}
+
 			if (cell.getAttribute("data") === "[object Object]") {
 				cell.style.backgroundColor = "DarkBlue";
 			} else if (cell.getAttribute("data") === "Miss") {
@@ -221,10 +240,34 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 		}
 		removeAllChildNodes(board);
 
+		const containers = sideContainer.childNodes;
+		const checkForContainers = () => {
+			for (let container of containers) {
+				if (container.hasAttribute("status")) {
+					return false;
+				}
+			}
+		};
+
+		console.log(checkForContainers());
+
 		const newShip = ship(shipLength, 0);
-		playerGameBoard.placeShip(parseInt(xInput.value), parseInt(yInput.value), newShip);
-		renderboard();
-		console.log(playerArray);
+		if (xInput.value === "" || yInput.value === "") {
+			console.log(xInput.value);
+			alert("Please fill in the number");
+			renderboard();
+		} else if (checkForContainers() === undefined) {
+			alert("Please pick a ship");
+			renderboard();
+		} else {
+			if (playerGameBoard.existentShips(newShip) === false) {
+				playerGameBoard.placeShip(parseInt(xInput.value), parseInt(yInput.value), newShip);
+				renderboard();
+			} else {
+				alert("Ship is already there");
+				renderboard();
+			}
+		}
 	});
 
 	verticalOption.addEventListener("click", () => {
@@ -235,10 +278,32 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 			}
 		}
 		removeAllChildNodes(board);
-		const newShip = ship(shipLength, 1);
 
-		playerGameBoard.placeShip(parseInt(xInput.value), parseInt(yInput.value), newShip);
-		renderboard();
+		const containers = sideContainer.childNodes;
+		const checkForContainers = () => {
+			for (let container of containers) {
+				if (container.hasAttribute("status")) {
+					return false;
+				}
+			}
+		};
+		const newShip = ship(shipLength, 1);
+		if (xInput.value === "" || yInput.value === "") {
+			console.log(xInput.value);
+			alert("Please fill in the number");
+			renderboard();
+		} else if (checkForContainers() === undefined) {
+			alert("Please pick a ship");
+			renderboard();
+		} else {
+			if (playerGameBoard.existentShips(newShip) === false) {
+				playerGameBoard.placeShip(parseInt(xInput.value), parseInt(yInput.value), newShip);
+				renderboard();
+			} else {
+				alert("Ship is already there");
+				renderboard();
+			}
+		}
 	});
 }
 
