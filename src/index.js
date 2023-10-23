@@ -18,7 +18,7 @@ function game() {
 	const computerGameBoard = gameBoard();
 
 	const humanPlayer = player("Human", playerGameBoard, computerGameBoard);
-	loadDOM(playerGameBoard, computerGameBoard);
+	loadDOM(humanPlayer, playerGameBoard, computerGameBoard);
 }
 
 const gameLoop = game();
