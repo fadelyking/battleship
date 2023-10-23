@@ -14,19 +14,28 @@ function gameBoard() {
 	}
 
 	// Place ships in 2D array
-	const placeShip = (rows, column, ship) => {
-		if (!checkForShip(rows, column)) {
-			if (ship.shipDirection() === 1) {
-				for (let i = 0; i < ship.shipLength; i++) {
-					console.log("No ship present, safe to put ship");
-					shipBoard[rows - i].splice(column, 1, ship);
+	const placeShip = (row, column, ship) => {
+		const shipDirection = ship.shipDirection();
+		if (!checkForShip(row, column)) {
+			if (
+				(shipDirection === 1 && row - ship.shipLength + 1 >= 0) ||
+				(shipDirection === 0 && column + ship.shipLength <= 10)
+			) {
+				if (shipDirection === 1) {
+					for (let i = 0; i < ship.shipLength; i++) {
+						shipBoard[row - i].splice(column, 1, ship);
+					}
+				} else {
+					for (let i = 0; i < ship.shipLength; i++) {
+						shipBoard[row].splice(column + i, 1, ship);
+					}
 				}
 			} else {
-				for (let i = 0; i < ship.shipLength; i++) {
-					console.log("No ship present, safe to put ship");
-					shipBoard[rows].splice(column + i, 1, ship);
-				}
+				alert("Invalid placement; exceeds board boundaries.");
+				console.log("Invalid ship placement. Exceeds board boundaries.");
 			}
+		} else {
+			alert("Invalid placement; Ship overlaps.");
 		}
 	};
 
@@ -57,6 +66,16 @@ function gameBoard() {
 			return "Already hit here";
 		}
 	};
+	let storedShip = ["Destroyer", "Submarine", "Cruiser", "Battleship", "Carrier"];
+	const existentShips = (ship) => {
+		const findSplice = storedShip.findIndex((name) => name === ship.name);
+		if (findSplice === -1) {
+			return true;
+		} else if (findSplice !== -1) {
+			storedShip.splice(findSplice, 1);
+			return false;
+		}
+	};
 
 	// When a ship sinks increase the number of Sunken Ships through reportStatus
 	// sunkShips stores that variable
@@ -73,7 +92,15 @@ function gameBoard() {
 
 	const shipArray = () => shipBoard;
 
-	return { sunkShips, checkForShip, receiveAttack, reportStatus, placeShip, shipArray };
+	return {
+		sunkShips,
+		checkForShip,
+		receiveAttack,
+		reportStatus,
+		placeShip,
+		shipArray,
+		existentShips,
+	};
 }
 
 const playerGameBoard = gameBoard();
