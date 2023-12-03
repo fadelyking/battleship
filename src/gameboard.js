@@ -1,5 +1,5 @@
 import { ship } from "./ship";
-
+import { loadDOM, randomShipLoop } from "./DOM";
 function gameBoard() {
 	// Arrays to store the ships in
 	const rows = 10;
@@ -14,18 +14,18 @@ function gameBoard() {
 	}
 
 	// Place ships in 2D array
-	const placeShip = (row, column, ship) => {
+	const placeShip = (row, column, ship, type) => {
 		const shipDirection = ship.shipDirection();
 		if (!checkForShip(row, column)) {
 			if (
 				(shipDirection === 1 && row - ship.shipLength + 1 >= 0) ||
 				(shipDirection === 0 && column + ship.shipLength <= 10)
 			) {
-				if (shipDirection === 1) {
+				if (shipDirection === 1 && type !== "Enemy") {
 					for (let i = 0; i < ship.shipLength; i++) {
 						shipBoard[row - i].splice(column, 1, ship);
 					}
-				} else {
+				} else if (shipDirection === 0 && type !== "Enemy") {
 					for (let i = 0; i < ship.shipLength; i++) {
 						shipBoard[row].splice(column + i, 1, ship);
 					}
@@ -38,7 +38,35 @@ function gameBoard() {
 			alert("Invalid placement; Ship overlaps.");
 		}
 	};
-
+	let num = 0;
+	const placeRandomShips = (row, column, ship) => {
+		console.log(row, column + 1, ship);
+		const shipDirection = ship.shipDirection();
+		if (!checkForShip(row, column)) {
+			if (
+				(shipDirection === 1 && row - ship.shipLength + 1 >= 0) ||
+				(shipDirection === 0 && column + ship.shipLength <= 10)
+			) {
+				if (shipDirection === 1) {
+					for (let i = 0; i < ship.shipLength - 5; i++) {
+						shipBoard[row - i].splice(column, 1, ship);
+					}
+				} else {
+					for (let i = 0; i < ship.shipLength - 5; i++) {
+						shipBoard[row].splice(column + i, 1, ship);
+					}
+				}
+			} else {
+				for (let i = 0; i < ship.shipLength - 5; i++) {
+					shipBoard[row].splice(column + i, 1, ship);
+				}
+			}
+		} else {
+			for (let i = 0; i < ship.shipLength - 5; i++) {
+				shipBoard[row - i].splice(column, 1, ship);
+			}
+		}
+	};
 	// Return true if the ship is there, return Miss if it's a miss, and return false if nothing
 	const checkForShip = (row, column) => {
 		const findShip = shipBoard[row][column];
@@ -66,7 +94,18 @@ function gameBoard() {
 			return "Already hit here";
 		}
 	};
-	let storedShip = ["Destroyer", "Submarine", "Cruiser", "Battleship", "Carrier"];
+	let storedShip = [
+		"Destroyer",
+		"Submarine",
+		"Cruiser",
+		"Battleship",
+		"Carrier",
+		"Enemy-Destroyer",
+		"Enemy-Submarine",
+		"Enemy-Cruiser",
+		"Enemy-Battleship",
+		"Enemy-Carrier",
+	];
 	const existentShips = (ship) => {
 		const findSplice = storedShip.findIndex((name) => name === ship.name);
 		if (findSplice === -1) {
@@ -100,6 +139,7 @@ function gameBoard() {
 		placeShip,
 		shipArray,
 		existentShips,
+		placeRandomShips,
 	};
 }
 

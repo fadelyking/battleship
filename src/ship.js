@@ -2,7 +2,8 @@ export { ship };
 
 function ship(length, direction) {
 	let shipLength = length;
-
+	// If ship direction is 0, the ship is horizontal
+	// If ship direction is 1, the ship is vertical
 	const shipDirection = () => {
 		if (direction === 1) {
 			return 1;
@@ -13,6 +14,7 @@ function ship(length, direction) {
 
 	// Assign name based on length
 	let name;
+	let type;
 	if (length === 5) {
 		name = "Carrier";
 	} else if (length === 4) {
@@ -23,6 +25,21 @@ function ship(length, direction) {
 		name = "Submarine";
 	} else if (length === 1) {
 		name = "Destroyer";
+	} else if (length === 10) {
+		name = "Enemy-Carrier";
+		type = "Enemy";
+	} else if (length === 9) {
+		name = "Enemy-Battleship";
+		type = "Enemy";
+	} else if (length === 8) {
+		name = "Enemy-Cruiser";
+		type = "Enemy";
+	} else if (length === 7) {
+		name = "Enemy-Destroyer";
+		type = "Enemy";
+	} else if (length === 6) {
+		name = "Enemy-Submarine";
+		type = "Enemy";
 	}
 
 	// Number of hits
@@ -44,9 +61,3 @@ function ship(length, direction) {
 	};
 	return { numberOfHits, gotHit, isSunk, shipDirection, hits, name, shipLength };
 }
-
-const newShip = ship(4, 1);
-newShip.gotHit();
-newShip.gotHit();
-newShip.gotHit();
-newShip.isSunk();
