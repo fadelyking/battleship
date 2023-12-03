@@ -67,54 +67,57 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 	};
 	renderboard();
 
-	const computerArray = AIGameBoard.shipArray();
-	// 2D Array Loops
-	for (let i = 0; i < rows; i++) {
-		for (let j = 0; j < columns; j++) {
-			const cell = document.createElement("div");
-			cell.classList.toggle(`cell-${i}${j}`);
-			cell.setAttribute("data", `${computerArray[i][j]}`);
-			if (cell.className === `cell-0${j}`) {
-				cell.setAttribute("type", "computer");
-				const humanNums = document.createElement("div");
-				humanNums.setAttribute("numtype", "computer-nums");
-				humanNums.textContent = `${9 - j}`;
-				cell.appendChild(humanNums);
-			}
+	const renderAIBoard = () => {
+		const computerArray = AIGameBoard.shipArray();
+		// 2D Array Loops
+		for (let i = 0; i < rows; i++) {
+			for (let j = 0; j < columns; j++) {
+				const cell = document.createElement("div");
+				cell.classList.toggle(`cell-${i}${j}`);
+				cell.setAttribute("data", `${computerArray[i][j]}`);
+				if (cell.className === `cell-0${j}`) {
+					cell.setAttribute("type", "computer");
+					const humanNums = document.createElement("div");
+					humanNums.setAttribute("numtype", "computer-nums");
+					humanNums.textContent = `${9 - j}`;
+					cell.appendChild(humanNums);
+				}
 
-			if (cell.getAttribute("data") === "[object Object]") {
-				cell.style.backgroundColor = "DarkBlue";
-			} else if (cell.getAttribute("data") === "Miss") {
-				cell.style.borderRadius = "10px";
-				cell.style.backgroundColor = "Crimson";
-			}
-			computerContainer.appendChild(cell);
+				if (cell.getAttribute("data") === "[object Object]") {
+					cell.style.backgroundColor = "DarkBlue";
+				} else if (cell.getAttribute("data") === "Miss") {
+					cell.style.borderRadius = "10px";
+					cell.style.backgroundColor = "Crimson";
+				}
+				computerContainer.appendChild(cell);
 
-			cell.addEventListener("click", (e) => {
-				const row = cell.className.charAt(cell.className.length - 2);
-				const column = cell.className.charAt(cell.className.length - 1);
-				console.log(parseInt(row), parseInt(column));
-				player.attack(parseInt(row), parseInt(column));
+				cell.addEventListener("click", (e) => {
+					const row = cell.className.charAt(cell.className.length - 2);
+					const column = cell.className.charAt(cell.className.length - 1);
+					console.log(parseInt(row), parseInt(column));
+					player.attack(parseInt(row), parseInt(column));
 
-				const board = document.querySelector(".board");
-				function removeAllChildNodes(board) {
-					while (board.firstChild) {
-						board.removeChild(board.firstChild);
+					const board = document.querySelector(".board");
+					function removeAllChildNodes(board) {
+						while (board.firstChild) {
+							board.removeChild(board.firstChild);
+						}
 					}
-				}
-				removeAllChildNodes(board);
-				renderboard();
+					removeAllChildNodes(board);
+					renderboard();
 
-				if (cell.getAttribute("data") !== "[object Object]") {
-					cell.style.borderRadius = "10px";
-					cell.style.backgroundColor = "crimson";
-				} else if (cell.getAttribute("data") === "[object Object]") {
-					cell.style.borderRadius = "10px";
-					cell.style.backgroundColor = "green";
-				}
-			});
+					if (cell.getAttribute("data") !== "[object Object]") {
+						cell.style.borderRadius = "10px";
+						cell.style.backgroundColor = "crimson";
+					} else if (cell.getAttribute("data") === "[object Object]") {
+						cell.style.borderRadius = "10px";
+						cell.style.backgroundColor = "green";
+					}
+				});
+			}
 		}
-	}
+	};
+	renderAIBoard();
 
 	const destroyerContainer = document.createElement("div");
 	destroyerContainer.classList.toggle("destroyer-container");
@@ -305,6 +308,32 @@ function loadDOM(player, playerGameBoard, AIGameBoard) {
 			}
 		}
 	});
+
+	const randomShipLoop = (num) => {
+		const aiShip = ship(num, Math.floor(Math.random() * 1));
+		AIGameBoard.placeRandomShips(
+			parseInt(Math.floor(Math.random() * 10)),
+			parseInt(parseInt(Math.floor(Math.random() * 10))),
+			aiShip
+		);
+	};
+
+	for (let i = 6; i <= 10; i++) {
+		console.log("looped");
+		const board = document.querySelectorAll(".board");
+		function removeAllChildNodes(board) {
+			while (board.firstChild) {
+				board.removeChild(board.firstChild);
+			}
+		}
+		removeAllChildNodes(board[0]);
+		removeAllChildNodes(board[1]);
+		randomShipLoop(i);
+		renderboard();
+		renderAIBoard();
+	}
+
+	return { randomShipLoop };
 }
 
 export { loadDOM };
