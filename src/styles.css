@@ -83,6 +83,27 @@ body {
     border-radius: 8px;
 }
 
+.ai-board {
+    display: grid;
+    gap: 3px;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+
+    width: 400px;
+    height: 100;
+}
+
+.ai-board > * {
+    background-color: #83d7ee;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ai-board > *:hover {
+    background-color: #83d7ee;
+    border-radius: 8px;
+}
+
 .side-container {
     display: flex;
     justify-content: center;
